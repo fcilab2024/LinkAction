@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>true</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>LinkAction</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+  <EmbeddedResource Include="Assets\logo.png" LogicalName="LinkAction.logo.png" />
+</ItemGroup>
+</Project>

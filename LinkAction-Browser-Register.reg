@@ -1,0 +1,41 @@
+Windows Registry Editor Version 5.00
+
+; --- 64-bit registration ---
+[HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\LinkAction]
+@="LinkAction"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\LinkAction\shell\open\command]
+@="\"C:\\Program Files\\LinkAction\\LinkAction.exe\" \"%1\""
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\LinkAction\Capabilities]
+"ApplicationName"="LinkAction"
+"ApplicationDescription"="LinkAction security prompt for protected links"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Clients\StartMenuInternet\LinkAction\Capabilities\URLAssociations]
+"http"="LinkActionURL"
+"https"="LinkActionURL"
+
+[HKEY_CLASSES_ROOT\LinkActionURL]
+@="LinkAction URL"
+"URL Protocol"=""
+
+[HKEY_CLASSES_ROOT\LinkActionURL\shell\open\command]
+@="\"C:\\Program Files\\LinkAction\\LinkAction.exe\" \"%1\""
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\RegisteredApplications]
+"LinkAction"="SOFTWARE\\Clients\\StartMenuInternet\\LinkAction\\Capabilities"
+
+; --- 32-bit (WOW6432Node) mirror for 32-bit apps like Outlook Classic x86 ---
+[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Clients\StartMenuInternet\LinkAction]
+@="LinkAction"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Clients\StartMenuInternet\LinkAction\shell\open\command]
+@="\"C:\\Program Files\\LinkAction\\LinkAction.exe\" \"%1\""
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Clients\StartMenuInternet\LinkAction\Capabilities]
+"ApplicationName"="LinkAction"
+"ApplicationDescription"="LinkAction security prompt for protected links"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Clients\StartMenuInternet\LinkAction\Capabilities\URLAssociations]
+"http"="LinkActionURL"
+"https"="LinkActionURL"
