@@ -113,19 +113,6 @@ internal static class Program
             {
                 Log("User declined. Not opening URL.");
             }
-
-
-            Log($"User clicked: {result}");
-
-            if (result == DialogResult.Yes)
-            {
-                Log("User confirmed. Opening in real browser.");
-                OpenInRealBrowser(url);
-            }
-            else
-            {
-                Log("User declined. Not opening URL.");
-            }
         }
         catch (Exception ex)
         {
@@ -345,8 +332,10 @@ internal static class Program
                 if (parentId <= 0)
                     break;
 
-                using var parent = Process.GetProcessById(parentId);
-                var name = parent.ProcessName.ToLowerInvariant();
+                var name = GetProcessNameById(parentId);
+                if (string.IsNullOrWhiteSpace(name))
+                    name = $"pid-{parentId}";
+                name = name.ToLowerInvariant();
                 Log($"Ancestor[{depth}]: {name} (PID={parentId})");
 
                 if (IsOutlookProcessName(name))
@@ -404,6 +393,41 @@ internal static class Program
         return 0;
     }
 
+
+    private static string GetProcessNameById(int pid)
+    {
+        const uint TH32CS_SNAPPROCESS = 0x00000002;
+
+        IntPtr snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+        if (snapshot == IntPtr.Zero || snapshot.ToInt64() == -1)
+            return string.Empty;
+
+        try
+        {
+            PROCESSENTRY32 procEntry = new PROCESSENTRY32();
+            procEntry.dwSize = (uint)Marshal.SizeOf(typeof(PROCESSENTRY32));
+
+            if (!Process32First(snapshot, ref procEntry))
+                return string.Empty;
+
+            do
+            {
+                if (procEntry.th32ProcessID == pid)
+                {
+                    var exeName = procEntry.szExeFile ?? string.Empty;
+                    return Path.GetFileNameWithoutExtension(exeName) ?? string.Empty;
+                }
+            }
+            while (Process32Next(snapshot, ref procEntry));
+        }
+        finally
+        {
+            CloseHandle(snapshot);
+        }
+
+        return string.Empty;
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     private struct PROCESSENTRY32
     {
@@ -459,7 +483,7 @@ private static Image? LoadEmbeddedLogo()
     {
         public ConfirmDialog(string message, Image? logo)
         {
-            Text = "Security Warning – LinkAction";
+            Text = "Security Warning Â– LinkAction";
             StartPosition = FormStartPosition.CenterScreen;
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
@@ -544,7 +568,7 @@ private static Image? LoadEmbeddedLogo()
             // Apply as ClientSize so borders are accounted for by WinForms
             ClientSize = new Size(desiredW, desiredH);
 
-            // Don’t let the OS shrink us to nothing because of DPI/AutoSize quirks
+            // DonÂ’t let the OS shrink us to nothing because of DPI/AutoSize quirks
             MinimumSize = new Size(480, 180);
         }
     }
