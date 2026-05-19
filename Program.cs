@@ -21,7 +21,7 @@ internal static class Program
 
     [STAThread]
     [SupportedOSPlatform("windows")]
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         try
         {
@@ -30,6 +30,21 @@ internal static class Program
 
             Log("=== LinkAction started ===");
             Log($"Args count={args.Length}; Args={string.Join(" | ", args)}");
+            var tenantId = Microsoft.Win32.Registry.LocalMachine
+                .OpenSubKey(@"SOFTWARE\LinkAction")
+                ?.GetValue("TenantId")?.ToString()
+                ?? Environment.GetEnvironmentVariable("CLICKGUARD_TENANT_ID");
+
+            if (string.IsNullOrWhiteSpace(tenantId))
+            {
+                Log("WARNING: TenantId not found in the Registry or in the environment variable.");
+                Log(" The ClickGuard remote allowlist will NOT be consulted in this session.");
+                Log(" Run the correct .reg file for this company and restart.");
+            }
+            else
+            {
+                Log($" TenantId detectado: {tenantId}");
+            }
 
             if (args.Length == 0)
             {
@@ -77,12 +92,18 @@ internal static class Program
             var targetHost = GetTargetHost(url);
             Log($"Resolved target host: {targetHost}");
 
-            // 4) If host is in external allowlist, skip prompt.
-            if (!string.IsNullOrEmpty(targetHost) && IsAllowedDomain(targetHost))
+            // 4) Verifica allowlist local E remota (Azure ClickGuard)
+            if (!string.IsNullOrEmpty(targetHost))
             {
-                Log($"Target host '{targetHost}' is allowlisted. Forwarding without prompt.");
-                OpenInRealBrowser(url);
-                return;
+                bool localAllowed = IsAllowedDomain(targetHost);
+                bool remoteAllowed = await AzureApiService.IsAllowedDomainAsync(targetHost);
+
+                if (localAllowed || remoteAllowed)
+                {
+                    Log($"Host '{targetHost}' liberado (local={localAllowed}, remoto={remoteAllowed}). Abrindo.");
+                    OpenInRealBrowser(url);
+                    return;
+                }
             }
 
             // 5) Build friendly display text for popup
