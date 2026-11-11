@@ -113,19 +113,6 @@ internal static class Program
             {
                 Log("User declined. Not opening URL.");
             }
-
-
-            Log($"User clicked: {result}");
-
-            if (result == DialogResult.Yes)
-            {
-                Log("User confirmed. Opening in real browser.");
-                OpenInRealBrowser(url);
-            }
-            else
-            {
-                Log("User declined. Not opening URL.");
-            }
         }
         catch (Exception ex)
         {
