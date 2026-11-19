@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
@@ -6,8 +6,10 @@
     <ImplicitUsings>true</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>LinkAction</AssemblyName>
+    <DefaultItemExcludes>$(DefaultItemExcludes);Core/**;Tests/**</DefaultItemExcludes>
   </PropertyGroup>
   <ItemGroup>
-  <EmbeddedResource Include="Assets\logo.png" LogicalName="LinkAction.logo.png" />
-</ItemGroup>
+    <EmbeddedResource Include="Assets\Logo.png" LogicalName="LinkAction.logo.png" />
+    <ProjectReference Include="Core\LinkAction.Core.csproj" />
+  </ItemGroup>
 </Project>

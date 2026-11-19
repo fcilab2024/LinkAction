@@ -5,6 +5,10 @@ VisualStudioVersion = 17.14.36623.8 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkAction", "LinkAction.csproj", "{967C89C8-1D53-443E-AD5D-D9CB44695AAA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkAction.Core", "Core\LinkAction.Core.csproj", "{DA46E184-FD45-46C3-B386-6460EB72B04D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkAction.Tests", "Tests\LinkAction.Tests.csproj", "{C90CA05B-95B5-4172-9712-592748D5B25A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{967C89C8-1D53-443E-AD5D-D9CB44695AAA}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{967C89C8-1D53-443E-AD5D-D9CB44695AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{967C89C8-1D53-443E-AD5D-D9CB44695AAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA46E184-FD45-46C3-B386-6460EB72B04D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA46E184-FD45-46C3-B386-6460EB72B04D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA46E184-FD45-46C3-B386-6460EB72B04D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA46E184-FD45-46C3-B386-6460EB72B04D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C90CA05B-95B5-4172-9712-592748D5B25A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C90CA05B-95B5-4172-9712-592748D5B25A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C90CA05B-95B5-4172-9712-592748D5B25A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C90CA05B-95B5-4172-9712-592748D5B25A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
