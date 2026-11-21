@@ -60,19 +60,25 @@ public sealed class LinkWorkflowTests
         Assert.Equal(ProtectedUrl, Assert.Single(launched));
     }
 
-    [Fact]
-    public void MissingTargetDisplaysTheOriginalUrl()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void MissingTargetPromptsWithTheOriginalUrlAndHonorsTheAnswer(bool yes)
     {
         const string url = "https://linkprotect.cudasvc.com/url?a=bad";
         var displayed = new List<string>();
+        var launched = new List<string>();
         var workflow = new LinkWorkflow(() => ["outlook"],
             () => throw new InvalidOperationException("Unexpected allowlist read"),
-            target => { displayed.Add(target); return false; },
-            _ => throw new InvalidOperationException("Unexpected launch"), _ => { });
+            target => { displayed.Add(target); return yes; }, launched.Add, _ => { });
 
         workflow.Run(url);
 
         Assert.Equal(url, Assert.Single(displayed));
+        if (yes)
+            Assert.Equal(url, Assert.Single(launched));
+        else
+            Assert.Empty(launched);
     }
 
     [Fact]
